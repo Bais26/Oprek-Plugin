@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class KelasResource extends Resource
 {
     protected static ?string $model = Kelas::class;
+    protected static ?string $navigationGroup = 'Kelas';
+    
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
