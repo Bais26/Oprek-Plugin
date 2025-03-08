@@ -7,6 +7,7 @@ use App\Filament\Resources\KelasResource\RelationManagers;
 use Filament\Forms\Components\FileUpload;
 use App\Models\Kelas;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -21,29 +22,56 @@ class KelasResource extends Resource
 {
     protected static ?string $model = Kelas::class;
     protected static ?string $navigationGroup = 'Kelas';
-    
+
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
-         return $form
-        ->schema([
-            TextInput::make('title')->required(),
-            Textarea::make('description')->required(),
-            Select::make('category')->options([
-                'Website' => 'Website',
-                'Mobile' => 'Mobile',
-                'All' => 'All',
-            ])->required(),
-            TextInput::make('mentor_name')->required(),
-            FileUpload::make('mentor_photo')
-                ->image()
-                ->maxSize(2048) // Maksimal 2MB
-                ->disk('public') // Simpan sementara sebelum ke Cloudinary
-                ->directory('mentors') // Direktori di storage Laravel
-                ->required(),
-        ]);
+        return $form
+            ->schema([
+                TextInput::make('title')->required(),
+                Textarea::make('description')->required(),
+                Select::make('category')->options([
+                    'Website' => 'Website',
+                    'Mobile' => 'Mobile',
+                    'All' => 'All',
+                ])->required(),
+                FileUpload::make('thumbnail')
+                    ->image()  // Hanya menerima gambar
+                    ->maxSize(2048)  // Maksimal ukuran file 2MB
+                    ->disk('public')  // Menyimpan di disk public
+                    ->directory('thumbnail')  // Menyimpan di folder mentor_photos di dalam storage
+                    ->visibility('public')  // Menandai file agar dapat diakses secara publik
+                    ->preserveFilenames()  // Menyimpan file dengan nama asli
+                    ->required(),  // Membuatnya wajib diisi
+                TextInput::make('mentor_name')->required(),
+                FileUpload::make('mentor_photo')  // Nama field di model
+                    ->image()  // Hanya menerima gambar
+                    ->maxSize(2048)  // Maksimal ukuran file 2MB
+                    ->disk('public')  // Menyimpan di disk public
+                    ->directory('mentor_photos')  // Menyimpan di folder mentor_photos di dalam storage
+                    ->visibility('public')  // Menandai file agar dapat diakses secara publik
+                    ->preserveFilenames()  // Menyimpan file dengan nama asli
+                    ->required(),  // Membuatnya wajib diisi
+                RichEditor::make('class_information')
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        'link',
+                        'blockquote',
+                        'orderedList',
+                        'unorderedList',
+                        'h2',
+                        'h3',
+                        'h4',
+                        'codeBlock',
+                    ])
+                    ->required(),
+
+            ]);
     }
 
     public static function table(Table $table): Table

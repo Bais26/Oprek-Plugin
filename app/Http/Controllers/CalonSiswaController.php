@@ -28,6 +28,6 @@ class CalonSiswaController extends Controller
         // Simpan data calon siswa
         CalonSiswa::create($validated);
 
-        return redirect()->route('/')->with('success', 'Pendaftaran berhasil!');
+        return redirect()->route('welcome')->with('success', 'Pendaftaran berhasil!');
     }
 }

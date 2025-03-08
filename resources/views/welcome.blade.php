@@ -5,26 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLUGIN</title>
-    <!-- Memuat font Poppins dari Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="text-white font-[Poppins]">
+    <script>
+        function confirmLogout() {
+            if (confirm("Apakah Anda yakin ingin logout?")) {
+                document.getElementById('logout-form').submit();
+            }
+        }
+    </script>
     <!-- Navbar -->
     <div class="text-black">
         <nav class="flex justify-between items-center py-4 px-6 container mx-auto relative">
-          <a href="/"> <img class="w-12" src="/images/Logo.png" alt=""></a>
+            <a href="/"> <img class="w-12" src="/images/Logo.png" alt=""></a>
             <ul class="flex space-x-6">
                 <li><a href="#" class="hover:text-gray-400">Kelas</a></li>
                 <li><a href="#" class="hover:text-gray-400">Literasi</a></li>
                 <li><a href="#" class="hover:text-gray-400">Acara</a></li>
                 <li><a href="#" class="hover:text-gray-400">Penghargaan</a></li>
             </ul>
-            <button class="bg-red-500 text-white px-4 py-2 rounded-lg">Masuk</button>
+
+            @auth
+                <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button onclick="confirmLogout()" type="submit"
+                        class="bg-red-500 text-white px-4 py-2 rounded-lg">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg">Masuk</a>
+            @endauth
         </nav>
     </div>
+
 
     <!-- Hero Section -->
     <div class="container mx-auto">
@@ -51,7 +67,7 @@
                 </div>
                 <div
                     class="w-60 h-[60px] border border-[#da0138] mt-24 rounded-[10px] justify-center items-center inline-flex overflow-hidden">
-                    <div class="text-[#da0138] text-xl font-normal">Daftar Komunitas</div>
+                    <a href="/daftarkelas" class="text-[#da0138] text-xl font-normal">Daftar Komunitas</a>
                 </div>
             </div>
             <div class="">
@@ -121,129 +137,49 @@
     <section class="text-black body-font my-12">
         <div class="text-center">
             <h1 class="text-4xl font-bold">Daftar Kelas</h1>
-            <p class="mt-6 w-[700px] flex items-center justify-center mx-auto text-xl">Pelajari berbagai topik seputar software
+            <p class="mt-6 w-[700px] flex items-center justify-center mx-auto text-xl">Pelajari berbagai topik seputar
+                software
                 enginering dan design untuk masyarakat umum, siswa, mahasiswa dan fresh graduate dengan pendekatan yang
                 lebih intens dengan mentor.</p>
         </div>
         <div class="container px-5 mt-12 mx-auto">
             <div class="flex flex-wrap -m-4">
+                @foreach ($kelas as $item)
                 <div class="p-4 md:w-1/3">
-                    <div
-                        class="h-full shadow-md bg-[#F3F5F7] border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                        <img class="lg:h-72 md:h-36 w-full object-cover object-center" src="images/python.png"
-                            alt="blog">
+                    <div class="h-full shadow-md bg-[#F3F5F7] border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                        <!-- Gambar -->
+                        <img class="lg:h-72 md:h-36 w-full object-cover object-center"
+                             src="{{ asset('storage/' . $item->thumbnail) }}" alt="kelas">
+            
                         <div class="p-6">
-                            <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">WEBSITE</h2>
-                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">Web Frontend Development</h1>
-                            <p class="leading-relaxed mb-3">Photo booth fam kinfolk cold-pressed sriracha leggings
-                                jianbing microdosing tousled waistcoat.</p>
-                            <div class="flex items-center flex-wrap ">
-                                <a class="text-red-500 inline-flex items-center md:mb-2 lg:mb-0">Info Detail
-                                    <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M5 12h14"></path>
-                                        <path d="M12 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                                <span
-                                    class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>1.2K
-                                </span>
-                                <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path
-                                            d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z">
-                                        </path>
-                                    </svg>6
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-4 md:w-1/3">
-                    <div
-                        class="h-full shadow-md bg-[#F3F5F7] border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                        <img class="lg:h-72 md:h-36 w-full object-cover object-center" src="images/ai.png"
-                            alt="blog">
-                        <div class="p-6">
-                            <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">WEBSITE</h2>
-                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">Web Backend Development</h1>
-                            <p class="leading-relaxed mb-3">Photo booth fam kinfolk cold-pressed sriracha leggings
-                                jianbing microdosing tousled waistcoat.</p>
+                            <!-- Kategori -->
+                            <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
+                                {{ $item->category }}
+                            </h2>
+                            <!-- Judul Kelas -->
+                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
+                                {{ $item->title }}
+                            </h1>
+                            <!-- Deskripsi -->
+                            <p class="leading-relaxed mb-3">
+                                {{ Str::limit($item->description, 100) }}
+                            </p>
                             <div class="flex items-center flex-wrap">
-                                <a class="text-red-500 inline-flex items-center md:mb-2 lg:mb-0">Info Detail
-                                    <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
+                                <!-- Link ke Detail Kelas -->
+                                <a href="{{ route('kelas.detail', $item->id) }}"
+                                   class="text-red-500 inline-flex items-center md:mb-2 lg:mb-0">
+                                    Info Detail
+                                    <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M5 12h14"></path>
                                         <path d="M12 5l7 7-7 7"></path>
                                     </svg>
                                 </a>
-                                <span
-                                    class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>1.2K
-                                </span>
-                                <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path
-                                            d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z">
-                                        </path>
-                                    </svg>6
-                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="p-4 md:w-1/3">
-                    <div
-                        class="h-full shadow-md bg-[#F3F5F7] border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                        <img class="lg:h-72 md:h-36 w-full object-cover object-center" src="images/laravel.png"
-                            alt="blog">
-                        <div class="p-6">
-                            <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">WEBSITE</h2>
-                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">Laravel Development</h1>
-                            <p class="leading-relaxed mb-3">Photo booth fam kinfolk cold-pressed sriracha leggings
-                                jianbing microdosing tousled waistcoat.</p>
-                            <div class="flex items-center flex-wrap ">
-                                <a class="text-red-500 inline-flex items-center md:mb-2 lg:mb-0">Info Detail
-                                    <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M5 12h14"></path>
-                                        <path d="M12 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                                <span
-                                    class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>1.2K
-                                </span>
-                                <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path
-                                            d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z">
-                                        </path>
-                                    </svg>6
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            @endforeach
+            
             </div>
             <div
                 class="w-60 h-[60px] border border-[#da0138] mt-12 rounded-[10px] flex mx-auto justify-center items-center overflow-hidden">
@@ -308,15 +244,15 @@
                     </nav>
                 </div>
                 <div class='w-1/2 lg:w-1/4 mdw-full px-4 flex-col items-start'>
-                    <h2 class='text-red-500 font-medium mb-3'>Home Base</h2>
+                    <h2 class='text-red-500 font-medium mb-3'>Dashboard Base</h2>
                     <nav class='list-none mb-10 md:mx-0'>
                         <a class="flex gap-2 my-2" href="">
                             <img src='https://res.cloudinary.com/devloops7/image/upload/v1679613165/plugin/newIconsWebProfile/icon-homebase_nithgk.svg'
-                            alt='Tegal, Jawa Tengah, Indonesia' /> Tegal, Jawa Tengah, Indonesia
+                                alt='Tegal, Jawa Tengah, Indonesia' /> Tegal, Jawa Tengah, Indonesia
                         </a>
                         <a class="flex gap-2 my-2" href="">
                             <img src='https://res.cloudinary.com/devloops7/image/upload/v1679613167/plugin/newIconsWebProfile/icon-mail_g0p3jj.svg'
-                            alt='plugintegal@gmail.com' /> plugintegal@gmail.com
+                                alt='plugintegal@gmail.com' /> plugintegal@gmail.com
                         </a>
                     </nav>
                 </div>
