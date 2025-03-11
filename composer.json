@@ -3,10 +3,7 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": [
-        "laravel",
-        "framework"
-    ],
+    "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -64,20 +61,13 @@
         }
     },
     "config": {
-        "platform": {
-            "php": "8.2.0"
-        },
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        },
-        "ext-openssl": "*",
-        "ext-curl": "*",
-        "ext-pdo_pgsql": "*",
-        "ext-pgsql": "*"   
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true
