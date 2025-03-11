@@ -75,7 +75,9 @@
             "php-http/discovery": true
         },
         "ext-openssl": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-pgsql": "*"   
     },
     "minimum-stability": "stable",
     "prefer-stable": true
